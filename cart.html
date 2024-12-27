@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        .header-buttons button {
+            background-color: #163c64;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        .header-buttons button:hover {
+            background-color: #0018b3;
+        }
+
+        .cart-container {
+            padding: 20px;
+        }
+
+        .customer-group {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            /* 設為粗體 */
+            margin-bottom: 10px;
+        }
+
+        .customer-info h3,
+        .customer-info p {
+            margin-right: 20px;
+            /* 控制項目之間的距離 */
+        }
+
+        .payment-checkbox {
+            margin-left: 10px;
+        }
+
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .product-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .edit-quantity {
+            width: 60px;
+            margin-left: 10px;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .paid {
+            background-color: rgba(128, 128, 128, 0.5);
+            /* 透明灰色 */
+        }
+
+        .paid-text {
+            color: green;
+            font-weight: bold;
+        }
+
+        .payment-checkbox {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let isEditMode = false; // 初始非編輯模式
+
+        // 切換編輯模式
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            loadCart(); // 重新渲染購物車內容
+            const editButton = document.getElementById('editButton');
+            editButton.innerText = isEditMode ? '完成' : '編輯';
+        }
+
+        // 用於處理付款狀態變更
+        function togglePaidStatus(customerName) {
+            const customerGroup = document.getElementById(`customer-group-${customerName}`);
+            const checkbox = document.getElementById(`checkbox-${customerName}`);
+
+            if (checkbox.checked) {
+                customerGroup.classList.add('paid');
+                const paidText = document.createElement('span');
+                paidText.classList.add('paid-text');
+                paidText.innerText = '已付款';
+                customerGroup.appendChild(paidText);
+            } else {
+                customerGroup.classList.remove('paid');
+                const paidText = customerGroup.querySelector('.paid-text');
+                if (paidText) paidText.remove();
+            }
+        }
+
+        function loadCart() {
+            const cartContainer = document.getElementById('cart-container');
+            cartContainer.innerHTML = ""; // 清空內容
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p>您的購物車是空的。</p>";
+                return;
+            }
+
+            const customerGroups = {};
+
+            // 將商品按購買人分組
+            cart.forEach(item => {
+                if (!customerGroups[item.name]) {
+                    customerGroups[item.name] = [];
+                }
+                customerGroups[item.name].push(item);
+            });
+            for (const customerName in customerGroups) {
+                const items = customerGroups[customerName];
+                let totalQuantity = 0;
+                let totalPrice = 0;
+
+                // 計算總數量和總價格
+                items.forEach(item => {
+                    totalQuantity += item.quantity;
+                    totalPrice += item.price * item.quantity;
+                });
+
+                let groupHTML = `
+            <div class="customer-group" id="customer-group-${customerName}">
+                <div class="customer-info">
+                    <h3 style="font-weight: bold;">購買人: ${customerName}</h3>
+                    <p style="font-weight: bold; margin-right: 20px;">總價格: $${totalPrice.toFixed(2)}</p>
+                    <input type="checkbox" id="checkbox-${customerName}" class="payment-checkbox" onclick="togglePaidStatus('${customerName}')">
+                </div>
+            <div class="product-list">
+        `;
+
+                // 渲染每個商品
+                items.forEach((item, index) => {
+                    groupHTML += `
+                <div class="product-item">
+                    <img src="${item.image}" alt="${item.productName}">
+                    <div class="product-info">
+                        <span>商品: ${item.productName}</span>
+                        <span>
+                            數量: 
+                            ${isEditMode ? `<input type="number" class="edit-quantity" value="${item.quantity}" min="1" onchange="editQuantity('${customerName}', ${index}, this.value)">` : item.quantity}
+                        </span>
+                        <span>價格: $${item.price} x ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                    ${isEditMode ? `<button class="delete-button" onclick="deleteItem('${customerName}', ${index})">刪除</button>` : ''}
+                </div>
+            `;
+                });
+
+
+                groupHTML += `</div></div>`;
+                cartContainer.innerHTML += groupHTML;
+            }
+        }
+
+        function editQuantity(customerName, index, newQuantity) {
+            if (newQuantity < 1) {
+                alert("數量不能小於 1");
+                return;
+            }
+            const customerItems = cart.filter(item => item.name === customerName);
+            customerItems[index].quantity = parseInt(newQuantity);
+            saveCart();
+            loadCart();
+        }
+
+        function deleteItem(customerName, index) {
+            if (confirm("確定要刪除此商品嗎？")) {
+                let customerItems = cart.filter(item => item.name === customerName);
+                cart = cart.filter(item => item.name !== customerName); // 移除該購買人的所有商品
+                customerItems.splice(index, 1); // 刪除單個商品
+                cart = cart.concat(customerItems); // 加回剩餘的商品
+                saveCart();
+                loadCart();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        window.onload = loadCart;
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>購物車</h1>
+        <div class="header-buttons">
+            <button onclick="window.location.href = 'index.html';">🛒 返回商店</button>
+            <button id="editButton" onclick="toggleEditMode()">編輯</button>
+        </div>
+    </header>
+
+    <div class="cart-container" id="cart-container">
+        <!-- 購物車內容將透過 JS 動態加載 -->
+    </div>
+
+</body>
+
+</html>
