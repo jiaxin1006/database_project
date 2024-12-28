@@ -248,6 +248,45 @@
         .pagination button:hover {
             background-color: #ddd;
         }
+        /*四格圖格式*/
+        .pagination {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .pagination button {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .grid-navigation {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 列並排 */
+            gap: 10px; /* 圖片之間的間距 */
+            margin: 0 auto; /* 置中網格 */
+            padding: 20px;
+            max-width: 800px; /* 限制網格寬度 */
+        }
+
+        .grid-navigation img {
+            width: 100%; /* 圖片自適應單元格寬度 */
+            height: auto; /* 維持圖片比例 */
+            max-width: 200px; /* 限制圖片最大寬度 */
+            max-height: 200px; /* 限制圖片最大高度 */
+            object-fit: cover; /* 確保圖片填滿單元格 */
+            border: 1px solid #ccc; /* 圖片邊框 */
+            border-radius: 5px; /* 輕微圓角 */
+            cursor: pointer;
+            transition: transform 0.2s; /* 增加點擊動畫效果 */
+        }
+
+        .grid-navigation img:hover {
+            transform: scale(1.1); /* 放大效果 */
+        }
     </style>
     <script>
         // Retrieve cart from localStorage or initialize an empty cart
@@ -304,8 +343,8 @@
         }
 
         function goToLoginPage() {
-        window.location.href = 'login.html'; // 登入頁面
-    }
+            window.location.href = 'login.html'; // 登入頁面
+        }
 
         // 預設顯示第一頁
         document.addEventListener("DOMContentLoaded", function () {
@@ -349,12 +388,25 @@
 
         // 設定每 3 秒切換圖片一次
         setInterval(changeImage, 3000);
-
         // 初始顯示第一張圖片
         images[currentIndex].classList.remove('hidden');
+    
+
     });
 
     </script>
+
+    <script>
+        function navigateTo(section) {
+            if (section.endsWith('.html')) {
+                window.location.href = section;
+            } else {
+                alert(`導向 ${section}`);
+            }
+        }
+    </script>
+
+
 </head>
 
 <body>
@@ -415,7 +467,7 @@
         <div class="product-page" data-page="1">
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V700-5(藍白).jpg" alt="V700-5(藍白)">
+                    <img src="ball_images/V700-5(藍白).jpg" alt="V700-5(藍白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(藍白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -425,7 +477,7 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/Mikasa_V200W.png" alt="Mikasa_V200W">
+                    <img src="ball_images/Mikasa_V200W.png" alt="Mikasa_V200W">
                     <button class="add-to-cart-btn" onclick="showOrderModal('Mikasa_V200W', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -435,7 +487,7 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V700-5(淺粉白).jpg" alt="V700-5(淺粉白)">
+                    <img src="ball_images/V700-5(淺粉白).jpg" alt="V700-5(淺粉白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(淺粉白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -448,7 +500,7 @@
         <div class="product-page" data-page="2">
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V5M1500.png" alt="V5M1500">
+                    <img src="ball_images/V5M1500.png" alt="V5M1500">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V5M1500', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -458,7 +510,7 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V700-5(淺綠白).jpg" alt="V700-5(淺綠白)">
+                    <img src="ball_images/V700-5(淺綠白).jpg" alt="V700-5(淺綠白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(淺綠白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -468,7 +520,7 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V700-5(橘白).jpg" alt="V700-5(橘白)">
+                    <img src="ball_images/V700-5(橘白).jpg" alt="V700-5(橘白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(橘白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -481,7 +533,7 @@
         <div class="product-page" data-page="3">
             <div class="product">
                 <div class="product-item">
-                    <img src="images/Mikasa_V300W.png" alt="Mikasa_V300W">
+                    <img src="ball_images/Mikasa_V300W.png" alt="Mikasa_V300W">
                     <button class="add-to-cart-btn" onclick="showOrderModal('Mikasa_V300W', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -491,7 +543,7 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V700-5(紫白).png" alt="V700-5(紫白)">
+                    <img src="ball_images/V700-5(紫白).png" alt="V700-5(紫白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(紫白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
@@ -501,11 +553,199 @@
             </div>
             <div class="product">
                 <div class="product-item">
-                    <img src="images/V990-5(淺黃淺藍白).jpg" alt="V990-5(淺黃淺藍白)">
+                    <img src="ball_images/V990-5(淺黃淺藍白).jpg" alt="V990-5(淺黃淺藍白)">
                     <button class="add-to-cart-btn" onclick="showOrderModal('V990-5(淺黃淺藍白)', 500)">🛒 加入購物車</button>
                 </div>
                 <div class="product-info">
                     <h3>V990-5(淺黃淺藍白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+                <!-- Page 3 -->
+        <div class="product-page" data-page="3">
+            <div class="product">
+                <div class="product-item">
+                    <img src="ball_images/Mikasa_V300W.png" alt="Mikasa_V300W">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('Mikasa_V300W', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>Mikasa_V300W</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="ball_images/V700-5(紫白).png" alt="V700-5(紫白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('V700-5(紫白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>V700-5(紫白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="ball_images/V990-5(淺黃淺藍白).jpg" alt="V990-5(淺黃淺藍白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('V990-5(淺黃淺藍白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>V990-5(淺黃淺藍白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+        <!-- Page 4 -->
+        <div class="product-page" data-page="4">
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s1.png" alt="電繡排球襪(白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('電繡排球襪(白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>電繡排球襪(白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s2.png" alt="電繡排球襪(黑)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('電繡排球襪(黑)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>電繡排球襪(黑)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s3.png" alt="排球襪 經典款(黑)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('排球襪 經典款(黑)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>排球襪 經典款(黑)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+        <!-- Page 5 -->
+        <div class="product-page" data-page="5">
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s4.png" alt="排球襪 經典款(白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('排球襪 經典款(白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>排球襪 經典款(白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s5.png" alt="排球襪 經典款+白">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('排球襪 經典款+白', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>排球襪 經典款+白</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="socks_images/s6.png" alt="排球襪 經典款(白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('排球襪 經典款(白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>排球襪 經典款(白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+        <!-- Page 6 -->
+        <div class="product-page" data-page="6">
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh1.png" alt="50D輕量運動短袖上衣(黑)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('50D輕量運動短袖上衣(黑)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>50D輕量運動短袖上衣(黑)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh2.png" alt="50D輕量運動短袖上衣(白)">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('50D輕量運動短袖上衣(白)', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>50D輕量運動短袖上衣(白)</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh3.png" alt="TOP-BR彈性運動短袖上衣">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('TOP-BR彈性運動短袖上衣', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>TOP-BR彈性運動短袖上衣</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+        <!-- Page 7 -->
+        <div class="product-page" data-page="7">
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh4.png" alt="Meowlleyball 打排喵喵 / 排汗衫">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('Meowlleyball 打排喵喵 / 排汗衫', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>Meowlleyball 打排喵喵 / 排汗衫</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh5.png" alt="輕量機能排汗衫">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('輕量機能排汗衫', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>輕量機能排汗衫</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh6.png" alt="喝酒打球 / 機能排汗衫">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('喝酒打球 / 機能排汗衫', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>喝酒打球 / 機能排汗衫</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+        </div>
+        <!-- Page 8 -->
+        <div class="product-page" data-page="8">
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh7.png" alt="Meowlleyball 打排喵喵 / 排汗衫">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('Meowlleyball 打排喵喵 / 排汗衫', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>Meowlleyball 打排喵喵 / 排汗衫</h3>
+                    <p style="color: green;">$500</p>
+                </div>
+            </div>
+            <div class="product">
+                <div class="product-item">
+                    <img src="shirt_images/sh8.png" alt="輕量機能排汗衫">
+                    <button class="add-to-cart-btn" onclick="showOrderModal('輕量機能排汗衫', 500)">🛒 加入購物車</button>
+                </div>
+                <div class="product-info">
+                    <h3>輕量機能排汗衫</h3>
                     <p style="color: green;">$500</p>
                 </div>
             </div>
@@ -517,7 +757,21 @@
         <button class="page-btn active" onclick="showPage(1)">1</button>
         <button class="page-btn" onclick="showPage(2)">2</button>
         <button class="page-btn" onclick="showPage(3)">3</button>
+        <button class="page-btn" onclick="showPage(4)">4</button>
+        <button class="page-btn" onclick="showPage(5)">5</button>
+        <button class="page-btn" onclick="showPage(6)">6</button>
+        <button class="page-btn" onclick="showPage(7)">7</button>
+        <button class="page-btn" onclick="showPage(8)">8</button>
         <button>&gt;</button>
+    </div>
+        
+
+    <!-- Navigation Grid -->
+    <div class="grid-navigation">
+        <img src="shirt.jpg" alt="衣服" onclick="navigateTo('shirt.html')">
+        <img src="socks.jpg" alt="襪子" onclick="navigateTo('socks.html')">
+        <img src="ball.jpg" alt="球" onclick="navigateTo('ball.html')">
+        <img src="total.jpg" alt="所有配件" onclick="navigateTo('index.html')">
     </div>
 
     <!-- Modal for Order Details -->
